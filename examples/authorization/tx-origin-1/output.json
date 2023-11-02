@@ -1,0 +1,967 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "transfer",
+            "source_mapping": {
+              "start": 185,
+              "length": 219,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "InsecureWallet",
+                "source_mapping": {
+                  "start": 65,
+                  "length": 341,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                }
+              },
+              "signature": "transfer(address,uint256)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "(sent) = _to.call{value: _amount}()",
+            "source_mapping": {
+              "start": 306,
+              "length": 44,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                15
+              ],
+              "starting_column": 9,
+              "ending_column": 53
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "InsecureWallet.transfer(address,uint256) (examples/authorization/tx-origin-1/InsecureWallet.sol#12-17) sends eth to arbitrary user\n\tDangerous calls:\n\t- (sent) = _to.call{value: _amount}() (examples/authorization/tx-origin-1/InsecureWallet.sol#15)\n",
+        "markdown": "[InsecureWallet.transfer(address,uint256)](examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17) sends eth to arbitrary user\n\tDangerous calls:\n\t- [(sent) = _to.call{value: _amount}()](examples/authorization/tx-origin-1/InsecureWallet.sol#L15)\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17",
+        "id": "00bf1db5f20026852df16c69255c2a08c7c35878b9a435753a4e43a5843a2af8",
+        "check": "arbitrary-send-eth",
+        "impact": "High",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "contract",
+            "name": "InsecureWallet",
+            "source_mapping": {
+              "start": 65,
+              "length": 341,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            }
+          },
+          {
+            "type": "function",
+            "name": "transfer",
+            "source_mapping": {
+              "start": 185,
+              "length": 219,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "InsecureWallet",
+                "source_mapping": {
+                  "start": 65,
+                  "length": 341,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                }
+              },
+              "signature": "transfer(address,uint256)"
+            }
+          }
+        ],
+        "description": "InsecureWallet (examples/authorization/tx-origin-1/InsecureWallet.sol#5-18) has incorrect ERC20 function interface:InsecureWallet.transfer(address,uint256) (examples/authorization/tx-origin-1/InsecureWallet.sol#12-17)\n",
+        "markdown": "[InsecureWallet](examples/authorization/tx-origin-1/InsecureWallet.sol#L5-L18) has incorrect ERC20 function interface:[InsecureWallet.transfer(address,uint256)](examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17)\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L5-L18",
+        "id": "1d46bf19d4efe084672a7656857d95ab984b7120a9fe63db6cdd47d5d5523ec2",
+        "check": "erc20-interface",
+        "impact": "Medium",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "transfer",
+            "source_mapping": {
+              "start": 185,
+              "length": 219,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "InsecureWallet",
+                "source_mapping": {
+                  "start": 65,
+                  "length": 341,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                }
+              },
+              "signature": "transfer(address,uint256)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "require(bool,string)(tx.origin == owner,Not owner)",
+            "source_mapping": {
+              "start": 255,
+              "length": 40,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                13
+              ],
+              "starting_column": 9,
+              "ending_column": 49
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "InsecureWallet.transfer(address,uint256) (examples/authorization/tx-origin-1/InsecureWallet.sol#12-17) uses tx.origin for authorization: require(bool,string)(tx.origin == owner,Not owner) (examples/authorization/tx-origin-1/InsecureWallet.sol#13)\n",
+        "markdown": "[InsecureWallet.transfer(address,uint256)](examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17) uses tx.origin for authorization: [require(bool,string)(tx.origin == owner,Not owner)](examples/authorization/tx-origin-1/InsecureWallet.sol#L13)\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17",
+        "id": "86e50e9579e6ef11cb65d426c0b4743b40c91b61797c515fcfdf098af65c318a",
+        "check": "tx-origin",
+        "impact": "Medium",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_to",
+            "source_mapping": {
+              "start": 203,
+              "length": 19,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12
+              ],
+              "starting_column": 23,
+              "ending_column": 42
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            }
+          },
+          {
+            "type": "node",
+            "name": "(sent) = _to.call{value: _amount}()",
+            "source_mapping": {
+              "start": 306,
+              "length": 44,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                15
+              ],
+              "starting_column": 9,
+              "ending_column": 53
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "InsecureWallet.transfer(address,uint256)._to (examples/authorization/tx-origin-1/InsecureWallet.sol#12) lacks a zero-check on :\n\t\t- (sent) = _to.call{value: _amount}() (examples/authorization/tx-origin-1/InsecureWallet.sol#15)\n",
+        "markdown": "[InsecureWallet.transfer(address,uint256)._to](examples/authorization/tx-origin-1/InsecureWallet.sol#L12) lacks a zero-check on :\n\t\t- [(sent) = _to.call{value: _amount}()](examples/authorization/tx-origin-1/InsecureWallet.sol#L15)\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L12",
+        "id": "817702d7fac83d0e90c0922dddd92fe85f4a658855abaa599561e49185b31c07",
+        "check": "missing-zero-check",
+        "impact": "Low",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [],
+        "description": "solc-0.8.20 is not recommended for deployment\n",
+        "markdown": "solc-0.8.20 is not recommended for deployment\n",
+        "first_markdown_element": "",
+        "id": "5994d07edbbb82fc2013b486f41a2fa69898d896bb171a7f7c8bd767eb5b6521",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.20",
+            "source_mapping": {
+              "start": 39,
+              "length": 24,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                3
+              ],
+              "starting_column": 1,
+              "ending_column": 25
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".20"
+              ]
+            }
+          }
+        ],
+        "description": "Pragma version^0.8.20 (examples/authorization/tx-origin-1/InsecureWallet.sol#3) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
+        "markdown": "Pragma version[^0.8.20](examples/authorization/tx-origin-1/InsecureWallet.sol#L3) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L3",
+        "id": "86fac45ca89c9ffe2342b355bc642b58b0d835a0feda77ff5b165fa861fc132d",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "transfer",
+            "source_mapping": {
+              "start": 185,
+              "length": 219,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "InsecureWallet",
+                "source_mapping": {
+                  "start": 65,
+                  "length": 341,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                }
+              },
+              "signature": "transfer(address,uint256)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "(sent) = _to.call{value: _amount}()",
+            "source_mapping": {
+              "start": 306,
+              "length": 44,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                15
+              ],
+              "starting_column": 9,
+              "ending_column": 53
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "Low level call in InsecureWallet.transfer(address,uint256) (examples/authorization/tx-origin-1/InsecureWallet.sol#12-17):\n\t- (sent) = _to.call{value: _amount}() (examples/authorization/tx-origin-1/InsecureWallet.sol#15)\n",
+        "markdown": "Low level call in [InsecureWallet.transfer(address,uint256)](examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17):\n\t- [(sent) = _to.call{value: _amount}()](examples/authorization/tx-origin-1/InsecureWallet.sol#L15)\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17",
+        "id": "c8d1231ab1e650b27aaadbc2011ebe3ee2502d3fcc1ee24e1b47a46d1d63d333",
+        "check": "low-level-calls",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_to",
+            "source_mapping": {
+              "start": 203,
+              "length": 19,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12
+              ],
+              "starting_column": 23,
+              "ending_column": 42
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter InsecureWallet.transfer(address,uint256)._to (examples/authorization/tx-origin-1/InsecureWallet.sol#12) is not in mixedCase\n",
+        "markdown": "Parameter [InsecureWallet.transfer(address,uint256)._to](examples/authorization/tx-origin-1/InsecureWallet.sol#L12) is not in mixedCase\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L12",
+        "id": "e9803fb347d3c7ac4dee841682c895e568e625ec7a0c1faf3d4d59b2b2accbc7",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_amount",
+            "source_mapping": {
+              "start": 224,
+              "length": 12,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                12
+              ],
+              "starting_column": 44,
+              "ending_column": 56
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transfer",
+                "source_mapping": {
+                  "start": 185,
+                  "length": 219,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "InsecureWallet",
+                    "source_mapping": {
+                      "start": 65,
+                      "length": 341,
+                      "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 2
+                    }
+                  },
+                  "signature": "transfer(address,uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter InsecureWallet.transfer(address,uint256)._amount (examples/authorization/tx-origin-1/InsecureWallet.sol#12) is not in mixedCase\n",
+        "markdown": "Parameter [InsecureWallet.transfer(address,uint256)._amount](examples/authorization/tx-origin-1/InsecureWallet.sol#L12) is not in mixedCase\n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L12",
+        "id": "f62361a4a123df825bb1076afbe55bd2128671bdadc2e5f651fa62dc48114df1",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "owner",
+            "source_mapping": {
+              "start": 95,
+              "length": 20,
+              "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+              "is_dependency": false,
+              "lines": [
+                6
+              ],
+              "starting_column": 5,
+              "ending_column": 25
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "InsecureWallet",
+                "source_mapping": {
+                  "start": 65,
+                  "length": 341,
+                  "filename_relative": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_absolute": "/Users/sofinico/CoinFabrik/slither-testsuite-mesaurement/examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "filename_short": "examples/authorization/tx-origin-1/InsecureWallet.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                }
+              }
+            }
+          }
+        ],
+        "description": "InsecureWallet.owner (examples/authorization/tx-origin-1/InsecureWallet.sol#6) should be immutable \n",
+        "markdown": "[InsecureWallet.owner](examples/authorization/tx-origin-1/InsecureWallet.sol#L6) should be immutable \n",
+        "first_markdown_element": "examples/authorization/tx-origin-1/InsecureWallet.sol#L6",
+        "id": "cda0ef253b69abd97ff662db8b0f4e0941d3c5dcf4f29669f6936ed96e4f7e8a",
+        "check": "immutable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      }
+    ]
+  }
+}
