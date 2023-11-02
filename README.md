@@ -5,7 +5,7 @@
 | [integer-underflow-1](#integer-underflow-1) | Arithmetic    | 0                       |
 | [reentrancy-1](#reentrancy-1)               | Reentrancy    | 0                       |
 | [reentrancy-2](#reentrancy-1)               | Reentrancy    | 0                       |
-| [tx-origin](#tx-origin-1)                   | Authorization | 1                       |
+| [tx-origin-1](#tx-origin-1)                 | Authorization | 1                       |
 
 ---
 
