@@ -2,25 +2,14 @@
 
 pragma solidity 0.6.12;
 
-abstract contract ReentrancyGuard {
-    bool internal locked;
-
-    modifier noReentrant() {
-        require(!locked, "No re-entrancy");
-        locked = true;
-        _;
-        locked = false;
-    }
-}
-
-contract InsecureEtherVault is ReentrancyGuard {
+contract InsecureEtherVault {
     mapping (address => uint256) private userBalances;
 
     function deposit() external payable {
         userBalances[msg.sender] += msg.value;
     }
 
-    function withdraw(uint256 _amount) external noReentrant {
+    function withdraw(uint256 _amount) external {
         uint256 balance = getUserBalance(msg.sender);
         require(balance - _amount >= 0, "Insufficient balance");
 

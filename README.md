@@ -33,8 +33,8 @@ A simple vault in which users can deposit Ethers, withdraw Ethers, and check the
 #### Observations
 
 - Integer overflow vulnerability detected by [tautology](https://github.com/crytic/slither/wiki/Detector-Documentation#tautology-or-contradiction) detector. Reported severity is Medium, should be High as an attacker could drain all contract Ethers in one transaction.
-- [low-level-call](https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls) warning is okay in this case. However, if reentrancy modifier is removed, the tool keeps raising same informational low-level-call and does not recognize a possible reentrancy attack (false negative).
-- Remaining results are some naming conventions and a comment on [solc-version](https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity) which is OK.
+- [low-level-call](https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls) warning is debatable (see [this](https://consensys.io/diligence/blog/2019/09/stop-using-soliditys-transfer-now/) article).
+- Remaining results are some naming convetions and a comment on [solc-version](https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity) which is okay.
 
 #### Checklist output
 
@@ -43,18 +43,17 @@ A simple vault in which users can deposit Ethers, withdraw Ethers, and check the
 - [low-level-calls](#low-level-calls) (1 results) (Informational)
 - [naming-convention](#naming-convention) (2 results) (Informational)
 
-##### tautology
+## tautology
 
 Impact: Medium
 Confidence: High
 
 - [ ] ID-0
-      [InsecureEtherVault.withdraw(uint256)](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L23-L31) contains a tautology or contradiction:
-  - [require(bool,string)(balance - \_amount >= 0,Insufficient balance)](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L25)
+      [InsecureEtherVault.withdraw(uint256)](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12-L20) contains a tautology or contradiction: - [require(bool,string)(balance - \_amount >= 0,Insufficient balance)](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L14)
 
-InsecureEtherVault.sol#L23-L31
+examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12-L20
 
-##### solc-version
+## solc-version
 
 Impact: Informational
 Confidence: High
@@ -62,38 +61,37 @@ Confidence: High
 - [ ] ID-1
       Pragma version[0.6.12](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L3) allows old versions
 
-InsecureEtherVault.sol#L3
+examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L3
 
 - [ ] ID-2
       solc-0.6.12 is not recommended for deployment
 
-##### low-level-calls
+## low-level-calls
 
 Impact: Informational
 Confidence: High
 
 - [ ] ID-3
-      Low level call in [InsecureEtherVault.withdraw(uint256)](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L23-L31): - [(success) = msg.sender.call{value: \_amount}()](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L29)
+      Low level call in [InsecureEtherVault.withdraw(uint256)](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12-L20): - [(success) = msg.sender.call{value: \_amount}()](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L18)
 
-InsecureEtherVault.sol#L23-L31
+examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12-L20
 
-##### naming-convention
+## naming-convention
 
 Impact: Informational
 Confidence: High
 
 - [ ] ID-4
-      Parameter [InsecureEtherVault.getUserBalance(address).\_user](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L37) is not in mixedCase
+      Parameter [InsecureEtherVault.getUserBalance(address).\_user](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L26) is not in mixedCase
 
-InsecureEtherVault.sol#L37
+examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L26
 
 - [ ] ID-5
-      Parameter [InsecureEtherVault.withdraw(uint256).\_amount](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L23) is not in mixedCase
+      Parameter [InsecureEtherVault.withdraw(uint256).\_amount](examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12) is not in mixedCase
 
-InsecureEtherVault.sol#L23
+examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12
 
-INFO:Slither:InsecureEtherVault.sol analyzed (2 contracts with 93 detectors), 6 result(s) found
-
+INFO:Slither:examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol analyzed (1 contracts with 93 detectors), 6 result(s) found
 
 ## reentrancy-1
 
@@ -125,58 +123,57 @@ A simple vault in which users can deposit Ethers, withdraw Ethers, and check the
 #### Checklist output
 
 Summary
- - [reentrancy-eth](#reentrancy-eth) (1 results) (High)
- - [solc-version](#solc-version) (2 results) (Informational)
- - [low-level-calls](#low-level-calls) (1 results) (Informational)
- - [naming-convention](#naming-convention) (1 results) (Informational)
+
+- [reentrancy-eth](#reentrancy-eth) (1 results) (High)
+- [solc-version](#solc-version) (2 results) (Informational)
+- [low-level-calls](#low-level-calls) (1 results) (Informational)
+- [naming-convention](#naming-convention) (1 results) (Informational)
+
 ## reentrancy-eth
+
 Impact: High
 Confidence: Medium
- - [ ] ID-0
-Reentrancy in [InsecureEtherVault.withdrawAll()](examples/reentrancy/reentrancy-1.sol#L10-L18):
-        External calls:
-        - [(success) = msg.sender.call{value: balance}()](examples/reentrancy/reentrancy-1.sol#L14)
-        State variables written after the call(s):
-        - [userBalances[msg.sender] = 0](examples/reentrancy/reentrancy-1.sol#L17)
-        [InsecureEtherVault.userBalances](examples/reentrancy/reentrancy-1.sol#L4) can be used in cross function reentrancies:
-        - [InsecureEtherVault.deposit()](examples/reentrancy/reentrancy-1.sol#L6-L8)
-        - [InsecureEtherVault.getUserBalance(address)](examples/reentrancy/reentrancy-1.sol#L24-L26)
-        - [InsecureEtherVault.withdrawAll()](examples/reentrancy/reentrancy-1.sol#L10-L18)
+
+- [ ] ID-0
+      Reentrancy in [InsecureEtherVault.withdrawAll()](examples/reentrancy/reentrancy-1.sol#L10-L18):
+      External calls: - [(success) = msg.sender.call{value: balance}()](examples/reentrancy/reentrancy-1.sol#L14)
+      State variables written after the call(s): - [userBalances[msg.sender] = 0](examples/reentrancy/reentrancy-1.sol#L17)
+      [InsecureEtherVault.userBalances](examples/reentrancy/reentrancy-1.sol#L4) can be used in cross function reentrancies: - [InsecureEtherVault.deposit()](examples/reentrancy/reentrancy-1.sol#L6-L8) - [InsecureEtherVault.getUserBalance(address)](examples/reentrancy/reentrancy-1.sol#L24-L26) - [InsecureEtherVault.withdrawAll()](examples/reentrancy/reentrancy-1.sol#L10-L18)
 
 examples/reentrancy/reentrancy-1.sol#L10-L18
 
-
 ## solc-version
+
 Impact: Informational
 Confidence: High
- - [ ] ID-1
-Pragma version[0.8.13](examples/reentrancy/reentrancy-1.sol#L1) allows old versions
+
+- [ ] ID-1
+      Pragma version[0.8.13](examples/reentrancy/reentrancy-1.sol#L1) allows old versions
 
 examples/reentrancy/reentrancy-1.sol#L1
 
-
- - [ ] ID-2
-solc-0.8.13 is not recommended for deployment
+- [ ] ID-2
+      solc-0.8.13 is not recommended for deployment
 
 ## low-level-calls
+
 Impact: Informational
 Confidence: High
- - [ ] ID-3
-Low level call in [InsecureEtherVault.withdrawAll()](examples/reentrancy/reentrancy-1.sol#L10-L18):
-        - [(success) = msg.sender.call{value: balance}()](examples/reentrancy/reentrancy-1.sol#L14)
+
+- [ ] ID-3
+      Low level call in [InsecureEtherVault.withdrawAll()](examples/reentrancy/reentrancy-1.sol#L10-L18): - [(success) = msg.sender.call{value: balance}()](examples/reentrancy/reentrancy-1.sol#L14)
 
 examples/reentrancy/reentrancy-1.sol#L10-L18
 
-
 ## naming-convention
+
 Impact: Informational
 Confidence: High
- - [ ] ID-4
-Parameter [InsecureEtherVault.getUserBalance(address)._user](examples/reentrancy/reentrancy-1.sol#L24) is not in mixedCase
+
+- [ ] ID-4
+      Parameter [InsecureEtherVault.getUserBalance(address).\_user](examples/reentrancy/reentrancy-1.sol#L24) is not in mixedCase
 
 examples/reentrancy/reentrancy-1.sol#L24
-
-
 
 ## reentrancy-2
 
@@ -208,52 +205,54 @@ Adapted from ([Source](https://github.com/crytic/slither/wiki/Detector-Documenta
 #### Checklist output
 
 Summary
- - [reentrancy-no-eth](#reentrancy-no-eth) (1 results) (Medium)
- - [solc-version](#solc-version) (2 results) (Informational)
- - [low-level-calls](#low-level-calls) (1 results) (Informational)
- - [naming-convention](#naming-convention) (1 results) (Informational)
+
+- [reentrancy-no-eth](#reentrancy-no-eth) (1 results) (Medium)
+- [solc-version](#solc-version) (2 results) (Informational)
+- [low-level-calls](#low-level-calls) (1 results) (Informational)
+- [naming-convention](#naming-convention) (1 results) (Informational)
+
 ## reentrancy-no-eth
+
 Impact: Medium
 Confidence: Medium
- - [ ] ID-0
-Reentrancy in [PotentiallyInsecureReentrant.bug()](examples/reentrancy/reentrancy-2.sol#L6-L11):
-        External calls:
-        - [(success) = msg.sender.call()](examples/reentrancy/reentrancy-2.sol#L8)
-        State variables written after the call(s):
-        - [not_called = false](examples/reentrancy/reentrancy-2.sol#L10)
-        [PotentiallyInsecureReentrant.not_called](examples/reentrancy/reentrancy-2.sol#L4) can be used in cross function reentrancies:
-        - [PotentiallyInsecureReentrant.bug()](examples/reentrancy/reentrancy-2.sol#L6-L11)
-        - [PotentiallyInsecureReentrant.not_called](examples/reentrancy/reentrancy-2.sol#L4)
+
+- [ ] ID-0
+      Reentrancy in [PotentiallyInsecureReentrant.bug()](examples/reentrancy/reentrancy-2.sol#L6-L11):
+      External calls: - [(success) = msg.sender.call()](examples/reentrancy/reentrancy-2.sol#L8)
+      State variables written after the call(s): - [not_called = false](examples/reentrancy/reentrancy-2.sol#L10)
+      [PotentiallyInsecureReentrant.not_called](examples/reentrancy/reentrancy-2.sol#L4) can be used in cross function reentrancies: - [PotentiallyInsecureReentrant.bug()](examples/reentrancy/reentrancy-2.sol#L6-L11) - [PotentiallyInsecureReentrant.not_called](examples/reentrancy/reentrancy-2.sol#L4)
 
 examples/reentrancy/reentrancy-2.sol#L6-L11
 
-
 ## solc-version
+
 Impact: Informational
 Confidence: High
- - [ ] ID-1
-Pragma version[0.8.13](examples/reentrancy/reentrancy-2.sol#L1) allows old versions
+
+- [ ] ID-1
+      Pragma version[0.8.13](examples/reentrancy/reentrancy-2.sol#L1) allows old versions
 
 examples/reentrancy/reentrancy-2.sol#L1
 
-
- - [ ] ID-2
-solc-0.8.13 is not recommended for deployment
+- [ ] ID-2
+      solc-0.8.13 is not recommended for deployment
 
 ## low-level-calls
+
 Impact: Informational
 Confidence: High
- - [ ] ID-3
-Low level call in [PotentiallyInsecureReentrant.bug()](examples/reentrancy/reentrancy-2.sol#L6-L11):
-        - [(success) = msg.sender.call()](examples/reentrancy/reentrancy-2.sol#L8)
+
+- [ ] ID-3
+      Low level call in [PotentiallyInsecureReentrant.bug()](examples/reentrancy/reentrancy-2.sol#L6-L11): - [(success) = msg.sender.call()](examples/reentrancy/reentrancy-2.sol#L8)
 
 examples/reentrancy/reentrancy-2.sol#L6-L11
 
-
 ## naming-convention
+
 Impact: Informational
 Confidence: High
- - [ ] ID-4
-Variable [PotentiallyInsecureReentrant.not_called](examples/reentrancy/reentrancy-2.sol#L4) is not in mixedCase
+
+- [ ] ID-4
+      Variable [PotentiallyInsecureReentrant.not_called](examples/reentrancy/reentrancy-2.sol#L4) is not in mixedCase
 
 examples/reentrancy/reentrancy-2.sol#L4
