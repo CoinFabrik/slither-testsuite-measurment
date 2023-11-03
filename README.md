@@ -44,7 +44,7 @@ A simple vault in which users can deposit Ether, withdraw Ether and check their 
 - [low-level-calls](#low-level-calls) (1 results) (Informational)
 - [naming-convention](#naming-convention) (2 results) (Informational)
 
-## tautology
+##### tautology
 
 Impact: Medium
 Confidence: High
@@ -54,7 +54,7 @@ Confidence: High
 
 examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12-L20
 
-## solc-version
+##### solc-version
 
 Impact: Informational
 Confidence: High
@@ -67,7 +67,7 @@ examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L3
 - [ ] ID-2
       solc-0.6.12 is not recommended for deployment
 
-## low-level-calls
+##### low-level-calls
 
 Impact: Informational
 Confidence: High
@@ -77,7 +77,7 @@ Confidence: High
 
 examples/arithmetic/integer-underflow-1/InsecureEtherVault.sol#L12-L20
 
-## naming-convention
+##### naming-convention
 
 Impact: Informational
 Confidence: High
@@ -130,7 +130,7 @@ Summary
 - [low-level-calls](#low-level-calls) (1 results) (Informational)
 - [naming-convention](#naming-convention) (1 results) (Informational)
 
-## reentrancy-eth
+##### reentrancy-eth
 
 Impact: High
 Confidence: Medium
@@ -143,7 +143,7 @@ Confidence: Medium
 
 examples/reentrancy/reentrancy-1.sol#L10-L18
 
-## solc-version
+##### solc-version
 
 Impact: Informational
 Confidence: High
@@ -156,7 +156,7 @@ examples/reentrancy/reentrancy-1.sol#L1
 - [ ] ID-2
       solc-0.8.13 is not recommended for deployment
 
-## low-level-calls
+##### low-level-calls
 
 Impact: Informational
 Confidence: High
@@ -166,7 +166,7 @@ Confidence: High
 
 examples/reentrancy/reentrancy-1.sol#L10-L18
 
-## naming-convention
+##### naming-convention
 
 Impact: Informational
 Confidence: High
@@ -212,7 +212,7 @@ Summary
 - [low-level-calls](#low-level-calls) (1 results) (Informational)
 - [naming-convention](#naming-convention) (1 results) (Informational)
 
-## reentrancy-no-eth
+##### reentrancy-no-eth
 
 Impact: Medium
 Confidence: Medium
@@ -225,7 +225,7 @@ Confidence: Medium
 
 examples/reentrancy/reentrancy-2.sol#L6-L11
 
-## solc-version
+##### solc-version
 
 Impact: Informational
 Confidence: High
@@ -238,7 +238,7 @@ examples/reentrancy/reentrancy-2.sol#L1
 - [ ] ID-2
       solc-0.8.13 is not recommended for deployment
 
-## low-level-calls
+##### low-level-calls
 
 Impact: Informational
 Confidence: High
@@ -248,7 +248,7 @@ Confidence: High
 
 examples/reentrancy/reentrancy-2.sol#L6-L11
 
-## naming-convention
+##### naming-convention
 
 Impact: Informational
 Confidence: High
@@ -300,7 +300,7 @@ InsecureWallet is a simple contract with the intention that only the owner can t
 - [naming-convention](#naming-convention) (2 results) (Informational)
 - [immutable-states](#immutable-states) (1 results) (Optimization)
 
-## arbitrary-send-eth
+##### arbitrary-send-eth
 
 Impact: High
 Confidence: Medium
@@ -311,7 +311,7 @@ Confidence: Medium
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17
 
-## erc20-interface
+##### erc20-interface
 
 Impact: Medium
 Confidence: High
@@ -321,7 +321,7 @@ Confidence: High
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L5-L18
 
-## tx-origin
+##### tx-origin
 
 Impact: Medium
 Confidence: Medium
@@ -331,7 +331,7 @@ Confidence: Medium
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17
 
-## missing-zero-check
+##### missing-zero-check
 
 Impact: Low
 Confidence: Medium
@@ -341,7 +341,7 @@ Confidence: Medium
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L12
 
-## solc-version
+##### solc-version
 
 Impact: Informational
 Confidence: High
@@ -354,7 +354,7 @@ Confidence: High
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L3
 
-## low-level-calls
+##### low-level-calls
 
 Impact: Informational
 Confidence: High
@@ -364,7 +364,7 @@ Confidence: High
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L12-L17
 
-## naming-convention
+##### naming-convention
 
 Impact: Informational
 Confidence: High
@@ -379,7 +379,7 @@ examples/authorization/tx-origin-1/InsecureWallet.sol#L12
 
 examples/authorization/tx-origin-1/InsecureWallet.sol#L12
 
-## immutable-states
+##### immutable-states
 
 Impact: Optimization
 Confidence: High
