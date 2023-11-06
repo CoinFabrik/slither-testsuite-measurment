@@ -6,6 +6,7 @@
 | [reentrancy-1](#reentrancy-1)               | Reentrancy    | 0                       |
 | [reentrancy-2](#reentrancy-1)               | Reentrancy    | 0                       |
 | [tx-origin-1](#tx-origin-1)                 | Authorization | 1                       |
+| [denial-of-service-1](#denial-of-service-1) | DoS           | 1                       |
 
 ---
 
@@ -390,3 +391,142 @@ Confidence: High
 examples/authorization/tx-origin-1/InsecureWallet.sol#L6
 
 INFO:Slither:examples/authorization/tx-origin-1/InsecureWallet.sol analyzed (1 contracts with 93 detectors), 10 result(s) found
+
+## denial-of-service-1
+
+### Configuration
+
+Compiler version: 0.8.20
+
+### Link to file
+
+[examples/denial-of-service/denial-of-service-1/SimpleAuction.sol](examples/denial-of-service/denial-of-service-1/SimpleAuction.sol)
+
+### Description
+
+SimpleAuction contract consists of an auction that keeps track of the highest bid offered so far and its bidder. When the current bidder loses their place, their funds are pushed back by the contract.
+
+A denial of service attack can occur to this contract, for instance, placing a bid thorough a contract that does not have declared a receive function, so its not able to receive any Ether. Therefore, if a bid is placed thorough that contract, no other bidder will be able to place a higher bid, because the `sendValue` function called at the end of `bid()` will be reverted.
+
+### Slither result
+
+| Results | Correct | False Positive | False Negative |
+| :------ | :------ | :------------- | :------------- |
+| 10      | 9       | 1              | 0              |
+
+#### Observations
+
+- All Informational detectors but none pointing to the actual vulnerability of the contract in [line 22](examples/denial-of-service/denial-of-service-1/SimpleAuction.sol#L22) with an unexpected revert on the `sendValue` function.
+
+#### Checklist output
+
+- [assembly](#assembly) (1 results) (Informational)
+- [pragma](#pragma) (1 results) (Informational)
+- [dead-code](#dead-code) (7 results) (Informational)
+- [solc-version](#solc-version) (3 results) (Informational)
+- [low-level-calls](#low-level-calls) (4 results) (Informational)
+
+##### assembly
+
+Impact: Informational
+Confidence: High
+
+- [ ] ID-0
+      [Address.\_revert(bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L146-L158) uses assembly - [INLINE ASM](node_modules/@openzeppelin/contracts/utils/Address.sol#L151-L154)
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L146-L158
+
+##### pragma
+
+Impact: Informational
+Confidence: High
+
+- [ ] ID-1
+      Different versions of Solidity are used: - Version used: ['0.8.20', '^0.8.20'] - [0.8.20](examples/denial-of-service/denial-of-service-1/SimpleAuction.sol#L3) - [^0.8.20](node_modules/@openzeppelin/contracts/utils/Address.sol#L4)
+
+examples/denial-of-service/denial-of-service-1/SimpleAuction.sol#L3
+
+##### dead-code
+
+Impact: Informational
+Confidence: Medium
+
+- [ ] ID-2
+      [Address.functionCallWithValue(address,bytes,uint256)](node_modules/@openzeppelin/contracts/utils/Address.sol#L83-L89) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L83-L89
+
+- [ ] ID-3
+      [Address.verifyCallResultFromTarget(address,bool,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L114-L129) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L114-L129
+
+- [ ] ID-4
+      [Address.\_revert(bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L146-L158) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L146-L158
+
+- [ ] ID-5
+      [Address.functionDelegateCall(address,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L104-L107) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L104-L107
+
+- [ ] ID-6
+      [Address.functionStaticCall(address,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L95-L98) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L95-L98
+
+- [ ] ID-7
+      [Address.verifyCallResult(bool,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L135-L141) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L135-L141
+
+- [ ] ID-8
+      [Address.functionCall(address,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L70-L72) is never used and should be removed
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L70-L72
+
+##### solc-version
+
+Impact: Informational
+Confidence: High
+
+- [ ] ID-9
+      Pragma version[^0.8.20](node_modules/@openzeppelin/contracts/utils/Address.sol#L4) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L4
+
+- [ ] ID-10
+      solc-0.8.20 is not recommended for deployment
+
+- [ ] ID-11
+      Pragma version[0.8.20](examples/denial-of-service/denial-of-service-1/SimpleAuction.sol#L3) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+
+examples/denial-of-service/denial-of-service-1/SimpleAuction.sol#L3
+
+##### low-level-calls
+
+Impact: Informational
+Confidence: High
+
+- [ ] ID-12
+      Low level call in [Address.functionStaticCall(address,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L95-L98): - [(success,returndata) = target.staticcall(data)](node_modules/@openzeppelin/contracts/utils/Address.sol#L96)
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L95-L98
+
+- [ ] ID-13
+      Low level call in [Address.functionDelegateCall(address,bytes)](node_modules/@openzeppelin/contracts/utils/Address.sol#L104-L107): - [(success,returndata) = target.delegatecall(data)](node_modules/@openzeppelin/contracts/utils/Address.sol#L105)
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L104-L107
+
+- [ ] ID-14
+      Low level call in [Address.functionCallWithValue(address,bytes,uint256)](node_modules/@openzeppelin/contracts/utils/Address.sol#L83-L89): - [(success,returndata) = target.call{value: value}(data)](node_modules/@openzeppelin/contracts/utils/Address.sol#L87)
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L83-L89
+
+- [ ] ID-15
+      Low level call in [Address.sendValue(address,uint256)](node_modules/@openzeppelin/contracts/utils/Address.sol#L41-L50): - [(success) = recipient.call{value: amount}()](node_modules/@openzeppelin/contracts/utils/Address.sol#L46)
+
+node_modules/@openzeppelin/contracts/utils/Address.sol#L41-L50
+
+INFO:Slither:examples/denial-of-service/denial-of-service-1/SimpleAuction.sol analyzed (2 contracts with 93 detectors), 16 result(s) found
