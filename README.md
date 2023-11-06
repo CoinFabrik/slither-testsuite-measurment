@@ -412,7 +412,7 @@ A denial of service attack can occur to this contract, for instance, placing a b
 
 | Results | Correct | False Positive | False Negative |
 | :------ | :------ | :------------- | :------------- |
-| 10      | 9       | 1              | 0              |
+| 10      | 9       | 0              | 1              |
 
 #### Observations
 
