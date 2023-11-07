@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: undefined
-
+// SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 
 contract InsecureEtherVault {
@@ -28,4 +27,11 @@ contract InsecureEtherVault {
     }
 }
 
+/*
+Arithmetic - Integer Underflow 
 
+A simple vault in which users can deposit Ether, withdraw Ether and check their
+balances. Vulnerability is in withdraw function, line 13.
+
+Adapted from https://github.com/serial-coder/solidity-security-by-example/tree/main/01_integer_underflow
+*/

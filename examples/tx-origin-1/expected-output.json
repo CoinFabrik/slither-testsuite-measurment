@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "authorization",
+  "function": "transfer",
+  "line": "12",
+  "detectors": ["tx-origin", "arbitrary-send-eth"],
+  "comment": ""
+}

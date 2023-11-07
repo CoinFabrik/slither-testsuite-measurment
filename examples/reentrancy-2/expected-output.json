@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "reentrancy",
+  "function": "bug",
+  "line": "9",
+  "detectors": ["reentrancy-no-eth"],
+  "comment": ""
+}

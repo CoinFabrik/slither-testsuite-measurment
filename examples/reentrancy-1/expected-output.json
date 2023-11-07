@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "reentrancy",
+  "function": "withdrawAll",
+  "line": "15",
+  "detectors": ["reentrancy-eth"],
+  "comment": ""
+}

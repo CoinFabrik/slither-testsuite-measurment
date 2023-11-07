@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
 contract PotentiallyInsecureReentrant {
@@ -10,3 +11,10 @@ contract PotentiallyInsecureReentrant {
         not_called = false;
     }
 }
+
+/*
+A toy contract showing a reentrancy that does not involve an ether transfer. 
+Possible vulnerability is in bug function.
+
+Adapted from https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1
+*/

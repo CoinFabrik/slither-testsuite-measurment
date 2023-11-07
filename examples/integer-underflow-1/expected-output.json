@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "arithmetic",
+  "function": "withdraw",
+  "line": "13",
+  "detectors": ["tautology"],
+  "comment": ""
+}
