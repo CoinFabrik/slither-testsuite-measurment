@@ -1,0 +1,8 @@
+{
+  "vulnerable": false,
+  "class": "reentrancy",
+  "function": "",
+  "line": "",
+  "detectors": [],
+  "comment": "Remediated by CEI"
+}

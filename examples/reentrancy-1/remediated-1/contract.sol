@@ -12,10 +12,10 @@ contract InsecureEtherVault {
         uint256 balance = getUserBalance(msg.sender);
         require(balance > 0, "Insufficient balance");
 
+        userBalances[msg.sender] = 0;
+
         (bool success, ) = msg.sender.call{value: balance}("");
         require(success, "Failed to send Ether");
-
-        userBalances[msg.sender] = 0;
     }
 
     function getBalance() external view returns (uint256) {
@@ -31,8 +31,5 @@ contract InsecureEtherVault {
 Reentrancy  
 
 A simple vault in which users can deposit Ether, withdraw Ether, 
-and check their balances. Vulnerability is in withdrawAll function, 
-as there's no check-effects-interaction pattern.
-
-Source https://gist.github.com/serial-coder/5a29d95e1872c960950d4a00b36768e6#file-insecureethervault-sol
+and check their balances. Reentrancy remediatied by CEI.
 */
