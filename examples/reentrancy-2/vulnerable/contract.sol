@@ -13,6 +13,8 @@ contract PotentiallyInsecureReentrant {
 }
 
 /*
+Reentrancy
+
 A toy contract showing a reentrancy that does not involve an ether transfer. 
 Possible vulnerability is in bug function.
 
