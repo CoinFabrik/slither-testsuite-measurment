@@ -1,0 +1,8 @@
+{
+  "vulnerable": false,
+  "class": "DoS",
+  "function": "",
+  "line": "",
+  "detectors": [],
+  "comment": "Gas Limit vulnerability remediated by gas left condition. The others should remain."
+}
