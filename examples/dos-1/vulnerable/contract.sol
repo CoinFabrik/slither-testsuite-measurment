@@ -11,13 +11,13 @@ contract SimpleAuction {
 
     function bid() external payable {
         require(msg.value > currentBid, "Bid not high enough");
-        
+
         address payable previousLeader = currentLeader;
         uint256 previousBid = currentBid;
-        
+
         currentLeader = payable(msg.sender);
         currentBid = msg.value;
-        
+
         previousLeader.sendValue(previousBid);
     }
 }
