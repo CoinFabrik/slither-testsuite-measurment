@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "block attribrutes",
+  "function": "spin",
+  "line": "17",
+  "detectors": ["weak-prng", "timestamp"],
+  "comment": ""
+}
