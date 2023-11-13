@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "block attribrutes",
+  "function": "guess",
+  "line": "12",
+  "detectors": ["weak-prng", "timestamp"],
+  "comment": "PRNG: Pseudorandom Number Generator. Both detectors are assertive."
+}
