@@ -2,7 +2,7 @@
   "vulnerable": true,
   "class": "DoS",
   "function": "payOut",
-  "line": "19",
-  "detectors": ["calls-loop", "reentrancy-unlimited-gas"],
-  "comment": "It also has an unexpected revert dos vulnerability, but there's no detector available for that yet. OBS: calls-loop has severity Low."
+  "line": "18",
+  "detectors": ["calls-loop", "unchecked-send"],
+  "comment": "OBS: calls-loop has severity Low."
 }
