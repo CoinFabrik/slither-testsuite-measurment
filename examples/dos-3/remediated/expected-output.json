@@ -1,8 +1,9 @@
 {
   "vulnerable": false,
   "class": "DoS",
+  "subclass": "Block gas limit",
   "function": "",
   "line": "",
-  "detectors": [],
+  "slither_detectors": [],
   "comment": "Gas Limit vulnerability remediated by gas left condition. The others should remain."
 }

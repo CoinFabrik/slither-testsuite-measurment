@@ -1,8 +1,9 @@
 {
   "vulnerable": true,
-  "class": "block attribrutes",
+  "class": "Block attribrutes",
+  "subclass": "Time manipulation",
   "function": "spin",
   "line": "17",
-  "detectors": ["weak-prng", "timestamp"],
+  "slither_detectors": ["weak-prng", "timestamp"],
   "comment": ""
 }

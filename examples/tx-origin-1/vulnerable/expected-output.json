@@ -1,8 +1,9 @@
 {
   "vulnerable": true,
-  "class": "authorization",
+  "class": "Authorization",
+  "subclass": "Tx origin",
   "function": "transfer",
   "line": "12",
-  "detectors": ["tx-origin", "arbitrary-send-eth"],
+  "slither_detectors": ["tx-origin", "arbitrary-send-eth"],
   "comment": ""
 }

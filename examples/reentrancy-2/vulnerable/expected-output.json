@@ -1,8 +1,9 @@
 {
   "vulnerable": true,
-  "class": "reentrancy",
+  "class": "Reentrancy",
+  "subclass": "Lack of CEI",
   "function": "bug",
   "line": "9",
-  "detectors": ["reentrancy-no-eth"],
+  "slither_detectors": ["reentrancy-no-eth"],
   "comment": ""
 }

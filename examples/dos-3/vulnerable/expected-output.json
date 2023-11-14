@@ -1,8 +1,9 @@
 {
   "vulnerable": true,
   "class": "DoS",
+  "subclass": "Block gas limit",
   "function": "payOut",
   "line": "18",
-  "detectors": ["calls-loop", "unchecked-send"],
+  "slither_detectors": ["calls-loop", "unchecked-send"],
   "comment": "OBS: calls-loop has severity Low."
 }

@@ -1,8 +1,9 @@
 {
   "vulnerable": true,
-  "class": "reentrancy",
+  "class": "Reentrancy",
+  "subclass": "Lack of CEI",
   "function": "withdrawAll",
   "line": "15",
-  "detectors": ["reentrancy-eth"],
+  "slither_detectors": ["reentrancy-eth"],
   "comment": ""
 }

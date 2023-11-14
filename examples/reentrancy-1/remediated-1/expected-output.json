@@ -1,8 +1,9 @@
 {
   "vulnerable": false,
-  "class": "reentrancy",
+  "class": "Reentrancy",
+  "subclass": "Lack of CEI",
   "function": "",
   "line": "",
-  "detectors": [],
+  "slither_detectors": [],
   "comment": "Remediated by CEI"
 }

@@ -1,8 +1,9 @@
 {
   "vulnerable": true,
-  "class": "arithmetic",
+  "class": "Arithmetic",
+  "subclass": "Integer underflow",
   "function": "withdraw",
   "line": "13",
-  "detectors": ["tautology"],
+  "slither_detectors": ["tautology"],
   "comment": ""
 }

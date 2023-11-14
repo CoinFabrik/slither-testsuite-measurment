@@ -25,7 +25,7 @@ contract ParticularVault {
 }
 
 /*
-DoS - Gas limit via Unbounded Operations
+DoS - Block gas limit
 
 In this particular vault, people can deposit and there's a pay out function 
 which pays them all.
