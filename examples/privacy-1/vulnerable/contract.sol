@@ -29,7 +29,7 @@ contract OddEven {
 }
 
 /*
-Privacy - Accessing private data
+Privacy - Unencrypted private data on-chain
 
 It is a common misconception that private type variables cannot be read. 
 Even if your contract is not published, attackers can look at contract 

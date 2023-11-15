@@ -1,7 +1,7 @@
 {
   "vulnerable": true,
-  "class": "Privacy",
-  "subclass": "Unencrypted private data on-chain",
+  "class": "MEV",
+  "subclass": "Front running",
   "function": "",
   "line": "",
   "slither_detectors": [],

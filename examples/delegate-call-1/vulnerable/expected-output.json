@@ -1,0 +1,9 @@
+{
+  "vulnerable": true,
+  "class": "Delegate call",
+  "subclass": "Delegate call",
+  "function": "fallback",
+  "line": "22",
+  "slither_detectors": ["controlled-delegatecall"],
+  "comment": ""
+}
