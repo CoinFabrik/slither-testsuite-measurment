@@ -5,94 +5,128 @@ from slither.printers import all_printers
 from slither.detectors.abstract_detector import *
 import json
 import os
+from solc_select import solc_select
+import pprint
+from crytic_compile import CryticCompile
 
 
-def extract_solc_version():
-    pass
+def solc_path_finder(version:str):
+    if not solc_select.artifact_path(version).exists():
+        print("Installing solc version", version)
+        solc_select.install_artifacts([version])
+    return solc_select.artifact_path(version).as_posix()
 
 
 def result_comparison(run_out : dict(), exp_out : dict()):
-    comparison_result = {"FOUND":0, "FALSE POSITIVE":0, "FALSE NEGATIVE":0}
-    #check vulnerability. If any detectors triggered, CHECK
-    #if no detectors triggered, all are false negatives
-    if exp_out['vulnerable'] == True:
-        pass
-    else:
-        #here the contract is not vulnerable. Anything found is a false positive
-        # dict1 = key : value for (key, value) in run_out.items() if value is not []
-        # comparison_result["FOUND"] = [1 for val in run_out.values() if len(val) != 0]
-        comparison_result["FALSE NEGATIVE"] = comparison_result["FOUND"]
+    comparison_result = {"FOUND":0, "NOT FOUND":0, "FALSE POSITIVE":0, "FALSE NEGATIVE":0}
+    mismatches = []
+    #{"WHAT WAS FOUND":"", "WHAT WAS THERE":"", "FULL SLITHER OUTPUT":""}
 
-    #check function.
-    #check detectors triggered.
+    #count detectors triggered
+    triggered_detectors = [val for val in run_out if len(val) != 0]
+    comparison_result["FOUND"] = len(triggered_detectors)
+
+    #check vulnerability. If the contract is known to be vulnerable, we perform further checks
+    if exp_out['vulnerable'] == True:
+        triggered_detector_name_list = [val[0]['check'] for val in triggered_detectors]
+        triggered_detector_functions = [val[0]['elements'][0]['name'] for val in triggered_detectors]
+        expected_detector_name_list = exp_out["slither_detectors"]
+        
+        #compute false positives
+        for det_out in triggered_detectors:
+            #first, we check that the functions match
+            #if not, anything found is a false positive
+            exp_function_name = exp_out['function']
+            det_function_name = det_out[0]['elements'][0]['name']
+            if (exp_function_name != det_function_name):
+                mismatches.append({"EXPECTED FUNCTION": exp_function_name, "GOT FUNCTION": det_function_name})
+                comparison_result["FALSE POSITIVE"] += 1
+            else:
+                #if functions match, check detectors
+                if len(expected_detector_name_list) > 0 and det_out[0]['check'] not in expected_detector_name_list:
+                    mismatches.append({"EXPECTED DETECTORS": expected_detector_name_list, "TRIGGERED DETECTOR": det_out[0]['check']})
+                    comparison_result["FALSE POSITIVE"] += 1
+        
+        #compute false negatives
+        det_dif = list(set(expected_detector_name_list).difference(triggered_detector_name_list))
+        if len(expected_detector_name_list) > 0 and len(det_dif):
+            #all expected detectors not triggered are false negatives
+            mismatches.append({"EXPECTED DETECTORS NOT TRIGGERED": det_dif})
+            comparison_result["FALSE NEGATIVE"] = len(det_dif)
+        else:
+            #if there are no expected detectors, we check if the vulnerable function is represented. If not, it's a false negative
+            if exp_out['function'] in triggered_detector_functions:
+                comparison_result["FALSE NEGATIVE"] = 0
+            else:
+                mismatches.append({"VULNERABLE FUNCTION NOT FLAGGED": exp_out['function']})
+                comparison_result["FALSE NEGATIVE"] = 1
+
+    else:
+        #if the contract is not vulnerable, all found vulns. are false positives 
+        # note that for the purpose of this application we exclude informational and low impact detectors
+        comparison_result["FALSE POSITIVE"] = comparison_result["FOUND"]
     
-    #count detectors triggered (FOUND)
-    #count detectors not triggered (NOT FOUND)
-    #count detectors found not in list (FALSE POSITIVE)
-    #count detectors in list not found (FALSE NEGATIVE)
-    print(run_out)
-    print(exp_out)
-    
-    return comparison_result
+    #all false negatives are vulnerabilities not found
+    comparison_result["NOT FOUND"] = comparison_result["FALSE NEGATIVE"]
+
+    return (comparison_result, mismatches)
 
 
 
 
 all_detector_classes = dict([(name, cls) for name, cls in all_detectors.__dict__.items() if isinstance(cls, type)])
-# high_detectors = dict([(name, cls) for name, cls in all_detector_classes if cls.IMPACT == DetectorClassification.HIGH])
 
 slither_objects = {}
 run_results = {}
 expected_results = {}
+files_to_run = []
 
-
+#Traverse directories. For each contract: extract expected results and create the corresponding slither object (with the desired solc version)
 for folder in os.listdir("examples"):
+    for subfolder in os.listdir(os.path.join("examples", folder)):
+        if (subfolder == 'exploiter'):
+            continue
 
-    #por ahora. Ver el tema de extraer el solc
-    if (folder not in ["reentrancy-1", "reentrancy-2"]):
-        continue
+        #ver tema de imports
+        # if (folder not in ["tx-origin-1", "integer-underflow-1", "reentrancy-2", "time-manipulation-1"]):
+        # if (folder not in ["dos-1"]):
+        #     continue
 
-    contract_filepath = os.path.join("examples", folder, "contract.sol")
-    expout_filepath = os.path.join("examples", folder, "expected-output.json")
-    with open(expout_filepath) as expout:
-        expected_results[folder] = json.load(expout)
-    slither_objects[folder] = Slither(contract_filepath)
+        contract_filepath = os.path.join("examples", folder, subfolder, "contract.sol")
+        config_filepath = os.path.join("examples", folder, subfolder, "config.json")
+        expout_filepath = os.path.join("examples", folder, subfolder, "expected-output.json")
+        files_to_run.append(contract_filepath)
+        
+        with open(expout_filepath) as expout:
+            expected_results[folder + " " + subfolder] = json.load(expout)
+        
+        solc_version = ""
+        remaps = ""
+        with open(config_filepath) as config_file:
+            config = json.load(config_file)
+            solc_version = config["solc"]
+            if "dependencies" in config.keys():
+                for dep in config["dependencies"]:
+                    remaps += dep + '=node_modules/' + dep + ' '
+        remaps = remaps[:-1]
+
+        slither_objects[folder + " " + subfolder] = Slither(contract_filepath, solc = solc_path_finder(solc_version), solc_remaps = remaps)
 
 
 for example_name, slither_obj in slither_objects.items():
     for d in all_detector_classes.values():
-        #uncomment to run only HIGH or MEDIUM impact detectors
+        #filter to run only HIGH or MEDIUM impact detectors
             if d.IMPACT == DetectorClassification.HIGH or d.IMPACT == DetectorClassification.MEDIUM:
                 slither_obj.register_detector(d)
     run_results[example_name] = slither_obj.run_detectors()
 
 
 #run result comparison
+f = 0
 for example_name, run_out in run_results.items():
     exp_out = expected_results[example_name]
-    
-    result_comparison(run_out, exp_out)
 
-
-
-# slither = Slither("examples/reentrancy-1/contract.sol")
-
-
-# for cls in all_detector_classes.values():
-#     slither.register_detector(cls)
-#     # slither.register_printer(all_printers.PrinterHumanSummary)
-
-# slither_output = slither.run_detectors()
-# for out in slither_output:
-#     if len(out) != 0:
-#         run_results.append(out)
-# print(run_results)
-
-
-# # f = open("package.json")
-# # expected_output = json.load(f)
-# # f.close()
-
-# #compare expected_output with slither_output
-# #...
-# #...
+    print(files_to_run[f])
+    f += 1
+    print(result_comparison(run_out, exp_out))
+    print('\n')
