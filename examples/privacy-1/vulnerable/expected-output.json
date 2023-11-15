@@ -1,0 +1,9 @@
+{
+  "vulnerable": true,
+  "class": "Privacy",
+  "subclass": "Accessing private data",
+  "function": "",
+  "line": "",
+  "slither_detectors": [],
+  "comment": ""
+}
