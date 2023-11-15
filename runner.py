@@ -84,13 +84,8 @@ files_to_run = []
 #Traverse directories. For each contract: extract expected results and create the corresponding slither object (with the desired solc version)
 for folder in os.listdir("examples"):
     for subfolder in os.listdir(os.path.join("examples", folder)):
-        if (subfolder == 'exploiter'):
+        if (subfolder not in ['vulnerable', 'remediated']):
             continue
-
-        #ver tema de imports
-        # if (folder not in ["tx-origin-1", "integer-underflow-1", "reentrancy-2", "time-manipulation-1"]):
-        # if (folder not in ["dos-1"]):
-        #     continue
 
         contract_filepath = os.path.join("examples", folder, subfolder, "contract.sol")
         config_filepath = os.path.join("examples", folder, subfolder, "config.json")
