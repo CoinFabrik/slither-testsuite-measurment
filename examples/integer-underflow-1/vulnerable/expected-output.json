@@ -4,6 +4,5 @@
   "subclass": "Integer underflow",
   "function": "withdraw",
   "line": "13",
-  "slither_detectors": ["tautology"],
   "comment": ""
 }

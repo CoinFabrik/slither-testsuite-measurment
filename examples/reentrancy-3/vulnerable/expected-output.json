@@ -4,6 +4,5 @@
   "subclass": "Lack of CEI",
   "function": "withdraw",
   "line": "17",
-  "slither_detectors": ["reentrancy-eth"],
   "comment": ""
 }

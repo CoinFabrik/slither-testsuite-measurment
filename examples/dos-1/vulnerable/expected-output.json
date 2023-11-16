@@ -4,6 +4,5 @@
   "subclass": "Unexpected revert",
   "function": "bid",
   "line": "21",
-  "slither_detectors": [],
   "comment": "The closer detector is calls-loop which recommends the pull-over-push and mentions dos attack."
 }

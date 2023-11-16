@@ -4,6 +4,5 @@
   "subclass": "Lack of CEI",
   "function": "",
   "line": "",
-  "slither_detectors": [],
   "comment": "Remediated by CEI"
 }

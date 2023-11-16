@@ -4,6 +4,5 @@
   "subclass": "Source of randomness",
   "function": "guess",
   "line": "12",
-  "slither_detectors": ["weak-prng", "timestamp"],
   "comment": "PRNG: Pseudorandom Number Generator. Both detectors are assertive."
 }

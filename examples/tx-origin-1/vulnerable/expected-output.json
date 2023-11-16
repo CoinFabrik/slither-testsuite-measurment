@@ -4,6 +4,5 @@
   "subclass": "Tx origin",
   "function": "transfer",
   "line": "12",
-  "slither_detectors": ["tx-origin", "arbitrary-send-eth"],
   "comment": ""
 }

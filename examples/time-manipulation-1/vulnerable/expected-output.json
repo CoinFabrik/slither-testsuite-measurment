@@ -4,6 +4,5 @@
   "subclass": "Time manipulation",
   "function": "spin",
   "line": "17",
-  "slither_detectors": ["weak-prng", "timestamp"],
   "comment": ""
 }

@@ -4,6 +4,5 @@
   "subclass": "Block gas limit",
   "function": "",
   "line": "",
-  "slither_detectors": [],
   "comment": "Gas Limit vulnerability remediated by gas left condition. The others should remain."
 }
