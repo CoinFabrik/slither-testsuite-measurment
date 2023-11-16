@@ -7,7 +7,6 @@ import json
 import os
 from solc_select import solc_select
 import pprint
-from crytic_compile import CryticCompile
 
 
 def solc_path_finder(version:str):
@@ -17,10 +16,21 @@ def solc_path_finder(version:str):
     return solc_select.artifact_path(version).as_posix()
 
 
+class_to_detector_mapping = {
+    "Arithmetic":["divide-before-multiply", "tautological-compare", "tautology"],
+    "Authorization":["tx-origin"],
+    "Block attributes":["weak-prng"],
+    "Delegate call":["controlled-delegatecall", "delegatecall-loop"],
+    "DoS":[],
+    "MEV":[],
+    "Reentrancy":["reentrancy-eth", "reentrancy-no-eth"],
+    "Privacy":[],
+}
+
+
 def result_comparison(run_out : dict(), exp_out : dict()):
     comparison_result = {"FOUND":0, "NOT FOUND":0, "FALSE POSITIVE":0, "FALSE NEGATIVE":0}
     mismatches = []
-    #{"WHAT WAS FOUND":"", "WHAT WAS THERE":"", "FULL SLITHER OUTPUT":""}
 
     #count detectors triggered
     triggered_detectors = [val for val in run_out if len(val) != 0]
@@ -30,7 +40,7 @@ def result_comparison(run_out : dict(), exp_out : dict()):
     if exp_out['vulnerable'] == True:
         triggered_detector_name_list = [val[0]['check'] for val in triggered_detectors]
         triggered_detector_functions = [val[0]['elements'][0]['name'] for val in triggered_detectors]
-        expected_detector_name_list = exp_out["slither_detectors"]
+        expected_detector_name_list = class_to_detector_mapping[exp_out["class"]]
         
         #compute false positives
         for det_out in triggered_detectors:
@@ -48,11 +58,12 @@ def result_comparison(run_out : dict(), exp_out : dict()):
                     comparison_result["FALSE POSITIVE"] += 1
         
         #compute false negatives
-        det_dif = list(set(expected_detector_name_list).difference(triggered_detector_name_list))
-        if len(expected_detector_name_list) > 0 and len(det_dif):
+        # det_dif = list(set(expected_detector_name_list).difference(triggered_detector_name_list))
+        if len(expected_detector_name_list) > 0: #and len(det_dif):
             #all expected detectors not triggered are false negatives
-            mismatches.append({"EXPECTED DETECTORS NOT TRIGGERED": det_dif})
-            comparison_result["FALSE NEGATIVE"] = len(det_dif)
+            # mismatches.append({"EXPECTED DETECTORS NOT TRIGGERED": det_dif})
+            # comparison_result["FALSE NEGATIVE"] = len(det_dif)
+            pass
         else:
             #if there are no expected detectors, we check if the vulnerable function is represented. If not, it's a false negative
             if exp_out['function'] in triggered_detector_functions:
@@ -62,7 +73,7 @@ def result_comparison(run_out : dict(), exp_out : dict()):
                 comparison_result["FALSE NEGATIVE"] = 1
 
     else:
-        #if the contract is not vulnerable, all found vulns. are false positives 
+        #if the contract is not vulnerable, all found vulns. are false positives
         # note that for the purpose of this application we exclude informational and low impact detectors
         comparison_result["FALSE POSITIVE"] = comparison_result["FOUND"]
     

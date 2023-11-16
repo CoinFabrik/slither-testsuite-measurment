@@ -1,6 +1,6 @@
 {
   "vulnerable": true,
-  "class": "Block attribrutes",
+  "class": "Block attributes",
   "subclass": "Source of randomness",
   "function": "guess",
   "line": "12",

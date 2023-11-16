@@ -1,6 +1,6 @@
 {
   "vulnerable": true,
-  "class": "Block attribrutes",
+  "class": "Block attributes",
   "subclass": "Time manipulation",
   "function": "spin",
   "line": "17",
