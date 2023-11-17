@@ -25,7 +25,7 @@ contract ParticularVault {
 }
 
 /*
-DoS - Gas limit via Unbounded Operations
+DoS - Block gas limit
 
 If you absolutely must loop over an array of unknown size, then you should plan for it 
 to potentially take multiple blocks, and therefore require multiple transactions. You will 

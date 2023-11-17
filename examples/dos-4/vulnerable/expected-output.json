@@ -1,0 +1,8 @@
+{
+  "vulnerable": true,
+  "class": "DoS",
+  "subclass": "Block gas limit",
+  "function": "applyInterest",
+  "line": "50",
+  "comment": ""
+}
