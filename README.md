@@ -6,9 +6,9 @@ Current database:
 | :--------------- | :-------------------------------- | :------------------- |
 | Arithmetic       | Integer underflow                 | `arithmetic-1`       |
 | Authorization    | Tx origin                         | `authorization-1`    |
+| Authorization    | Delegate call                     | `authorization-2`    |
 | Block attributes | Source of randomness              | `block-attributes-1` |
 | Block attributes | Time manipulation                 | `block-attributes-2` |
-| Delegate call    | Delegate call                     | `delegate-call-1`    |
 | DoS              | Unexpected revert                 | `dos-1`              |
 | DoS              | Unexpected revert                 | `dos-2`              |
 | DoS              | Block gas limit                   | `dos-3`              |

@@ -1,6 +1,6 @@
 {
   "vulnerable": true,
-  "class": "Delegate call",
+  "class": "Authorization",
   "subclass": "Delegate call",
   "function": "fallback",
   "line": "22",
