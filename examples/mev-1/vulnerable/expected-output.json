@@ -2,7 +2,7 @@
   "vulnerable": true,
   "class": "MEV",
   "subclass": "Front running",
-  "function": "",
+  "function": "solve",
   "line": "",
   "comment": ""
 }

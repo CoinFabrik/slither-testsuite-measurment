@@ -7,25 +7,39 @@ import json
 import os
 from solc_select import solc_select
 import pprint
+# from our-detector import OurDetector
+
+
+class_to_detector_mapping = {
+    "Arithmetic":["divide-before-multiply", "tautological-compare", "tautology"],
+    "Authorization":["tx-origin", "arbitrary-send-eth", "controlled-delegate-call"],
+    "Block attributes":["weak-prng"],
+    "Delegate call":["controlled-delegatecall", "delegatecall-loop"],
+    "DoS":[],
+    "MEV":["arbitrary-send-eth"],
+    "Reentrancy":["reentrancy-eth", "reentrancy-no-eth", "token-reentrancy"],
+    "Privacy":[],
+}
 
 
 def solc_path_finder(version:str):
+    #Helper function to find the correct solc version (according to the config file)
+    #for a specific contract.sol example. If the solc version is not installed,
+    #the script installs it before selecting it.
     if not solc_select.artifact_path(version).exists():
         print("Installing solc version", version)
         solc_select.install_artifacts([version])
     return solc_select.artifact_path(version).as_posix()
 
 
-class_to_detector_mapping = {
-    "Arithmetic":["divide-before-multiply", "tautological-compare", "tautology"],
-    "Authorization":["tx-origin"],
-    "Block attributes":["weak-prng"],
-    "Delegate call":["controlled-delegatecall", "delegatecall-loop"],
-    "DoS":[],
-    "MEV":[],
-    "Reentrancy":["reentrancy-eth", "reentrancy-no-eth"],
-    "Privacy":[],
-}
+def get_triggered_function_elements(det_output:dict()):
+    out_function_det = []
+    if len(det_output) > 0:
+        for t in det_output[0]:
+            for elem in t['elements']:
+                if elem['type'] == 'function':
+                    out_function_det.append(elem)
+    return out_function_det
 
 
 def result_comparison(run_out : dict(), exp_out : dict()):
@@ -35,50 +49,49 @@ def result_comparison(run_out : dict(), exp_out : dict()):
     #count detectors triggered
     triggered_detectors = [val for val in run_out if len(val) != 0]
     comparison_result["FOUND"] = len(triggered_detectors)
+    triggered_detector_function_elems = get_triggered_function_elements(triggered_detectors)
+    
+    #expected and detected function names
+    exp_function_names = [exp_out['function']]
+    det_function_names = [f['name'] for f in triggered_detector_function_elems]
 
     #check vulnerability. If the contract is known to be vulnerable, we perform further checks
     if exp_out['vulnerable'] == True:
-        triggered_detector_name_list = [val[0]['check'] for val in triggered_detectors]
-        triggered_detector_functions = [val[0]['elements'][0]['name'] for val in triggered_detectors]
         expected_detector_name_list = class_to_detector_mapping[exp_out["class"]]
-        
-        #compute false positives
-        for det_out in triggered_detectors:
+
+        if (len(triggered_detectors) == 0):
+            #contract is vulnerable but no detectors were triggered
+            #constitutes a false positive for all vulnerabilities present
+            comparison_result["NOT FOUND"] = len([exp_out['function']])
+            comparison_result["FALSE NEGATIVE"] = len([exp_out['function']])
+            mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": []})
+        else: 
             #first, we check that the functions match
             #if not, anything found is a false positive
-            exp_function_name = exp_out['function']
-            det_function_name = det_out[0]['elements'][0]['name']
-            if (exp_function_name != det_function_name):
-                mismatches.append({"EXPECTED FUNCTION": exp_function_name, "GOT FUNCTION": det_function_name})
-                comparison_result["FALSE POSITIVE"] += 1
+            if any([f not in det_function_names for f in exp_function_names]):
+                #at least one function detected as vulnerable was not expected to be vulnerable, add false positives
+                mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": det_function_names})
+                comparison_result["FALSE POSITIVE"] += sum([f not in det_function_names for f in exp_function_names])
+            
+            elif any([f not in exp_function_names for f in det_function_names]):
+                #at least one vulnerable function was not detected, add false negatives
+                mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": det_function_names})
+                comparison_result["FALSE NEGATIVE"] += sum([f not in exp_function_names for f in det_function_names])
+            
             else:
-                #if functions match, check detectors
-                if len(expected_detector_name_list) > 0 and det_out[0]['check'] not in expected_detector_name_list:
-                    mismatches.append({"EXPECTED DETECTORS": expected_detector_name_list, "TRIGGERED DETECTOR": det_out[0]['check']})
-                    comparison_result["FALSE POSITIVE"] += 1
-        
-        #compute false negatives
-        # det_dif = list(set(expected_detector_name_list).difference(triggered_detector_name_list))
-        if len(expected_detector_name_list) > 0: #and len(det_dif):
-            #all expected detectors not triggered are false negatives
-            # mismatches.append({"EXPECTED DETECTORS NOT TRIGGERED": det_dif})
-            # comparison_result["FALSE NEGATIVE"] = len(det_dif)
-            pass
-        else:
-            #if there are no expected detectors, we check if the vulnerable function is represented. If not, it's a false negative
-            if exp_out['function'] in triggered_detector_functions:
-                comparison_result["FALSE NEGATIVE"] = 0
-            else:
-                mismatches.append({"VULNERABLE FUNCTION NOT FLAGGED": exp_out['function']})
-                comparison_result["FALSE NEGATIVE"] = 1
-
+                for det_out in triggered_detectors:
+                    #if functions match, check detectors
+                    if det_out[0]['check'] not in expected_detector_name_list:
+                        mismatches.append({"SET OF EXPECTED DETECTORS": expected_detector_name_list, "TRIGGERED DETECTOR": det_out[0]['check']})
+                        comparison_result["FALSE POSITIVE"] += 1
     else:
         #if the contract is not vulnerable, all found vulns. are false positives
         # note that for the purpose of this application we exclude informational and low impact detectors
         comparison_result["FALSE POSITIVE"] = comparison_result["FOUND"]
+        mismatches.append({"EXPECTED FUNCTIONS": [], "GOT FUNCTIONS": det_function_names})
     
     #all false negatives are vulnerabilities not found
-    comparison_result["NOT FOUND"] = comparison_result["FALSE NEGATIVE"]
+    # assert(comparison_result["NOT FOUND"] == comparison_result["FALSE NEGATIVE"])
 
     return (comparison_result, mismatches)
 
@@ -97,6 +110,9 @@ for folder in os.listdir("examples"):
     for subfolder in os.listdir(os.path.join("examples", folder)):
         if (subfolder not in ['vulnerable', 'remediated']):
             continue
+
+        # if folder not in ["authorization-1"]:
+        #     continue
 
         contract_filepath = os.path.join("examples", folder, subfolder, "contract.sol")
         config_filepath = os.path.join("examples", folder, subfolder, "config.json")
@@ -129,10 +145,15 @@ for example_name, slither_obj in slither_objects.items():
 
 #run result comparison
 f = 0
+final_results = []
 for example_name, run_out in run_results.items():
     exp_out = expected_results[example_name]
 
     print(files_to_run[f])
     f += 1
-    print(result_comparison(run_out, exp_out))
+
+    res = result_comparison(run_out, exp_out)
+    final_results.append(res)
+    
+    print(res)
     print('\n')
