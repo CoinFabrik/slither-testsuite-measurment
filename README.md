@@ -1,6 +1,18 @@
 # Slither Testsuite Mesaurement
 
-Current database:
+[[_TOC_]]
+
+## Motivation & Benefits
+
+Ultimately, being able to enhance Slither based on our insights from Scout or, why not, build our own tool. Additionally, it has the benefit of creating a database of vulnerable contracts (known and categorised) for future use.
+
+## Objective
+
+Evaluate the performance of [Slither](https://github.com/crytic/slither) on smart contracts that exemplify different types of vulnerabilities (and their remediation), in order to assess accuracy, false positive/negatives and the tool overall behaviour.
+
+## Database
+
+Current database is exposed below, indicationg class and subclass of the vulnerability, using as reference [this](https://gitlab.com/coinfabrik-private/coinfabrik-wiki/-/wikis/Auditing/Analyses/) internal classification. Total examples: 14
 
 | Class            | Subclass                          | `examples/`          |
 | :--------------- | :-------------------------------- | :------------------- |
@@ -19,4 +31,10 @@ Current database:
 | Reentrancy       | Lack of CEI                       | `reentrancy-2`       |
 | Reentrancy       | Lack of CEI                       | `reentrancy-3`       |
 
-Total examples: 14
+## Resources
+
+Explore the [wiki](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home) for details on:
+
+- 🏃🏽‍♀️ [Automated test suite run](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home#automated-test-suite-run)
+- 👣 [Project next steps](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home)
+- ✏️ [Contributing](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home#contributing)
