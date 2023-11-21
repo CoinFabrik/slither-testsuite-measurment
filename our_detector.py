@@ -31,11 +31,12 @@ def detect_DoSable_loop(contract: Contract) -> List[Node]:
     #that is potentially unbounded
     #a loop is potentially unbounded if a call can fail and revert inside it,
     #before the start variable is updated in the loop
+    #and if the indexing variable is used to access a dictionary
 
     ret: List[Node] = []
     for f in contract.functions_entry_points:
         if f.is_implemented:
-            (f.entry_point, 0, [], ret)
+            unbounded_failable_loop(f.entry_point, 0, [], ret)
 
     return ret
 
@@ -80,6 +81,10 @@ def unbounded_failable_loop(node: Optional[Node], in_loop_counter: int, visited:
     elif node.type == NodeType.ENDLOOP:
         in_loop_counter -= 1
 
+    if in_loop_counter > 0:
+        #here I know I am inside a loop
+        # node.
+        pass
     
     pass
 
@@ -108,13 +113,11 @@ class OurDetector(AbstractDetector):
         for contract in self.compilation_unit.contracts_derived:
             # Check if a function has 'backdoor' in its name
             for f in contract.functions:
-                if "backdoor" in f.name:
-                    # Info to be printed
-                    info: DETECTOR_INFO = ["Backdoor function found in ", f, "\n"]
+                # Info to be printed
+                info: DETECTOR_INFO = ["Backdoor function found in ", f, "\n"]
 
-                    # Add the result in result
-                    res = self.generate_result(info)
+                # Add the result in result
+                res = self.generate_result(info)
 
-                    results.append(res)
-
+                results.append(res)
         return results

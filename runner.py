@@ -6,13 +6,14 @@ from slither.detectors.abstract_detector import *
 import json
 import os
 from solc_select import solc_select
-import pprint
-# from our-detector import OurDetector
+from our_detector import OurDetector
+
+
 
 
 class_to_detector_mapping = {
     "Arithmetic":["divide-before-multiply", "tautological-compare", "tautology"],
-    "Authorization":["tx-origin", "arbitrary-send-eth", "controlled-delegate-call"],
+    "Authorization":["tx-origin", "arbitrary-send-eth", "controlled-delegatecall"],
     "Block attributes":["weak-prng"],
     "Delegate call":["controlled-delegatecall", "delegatecall-loop"],
     "DoS":[],
@@ -88,7 +89,8 @@ def result_comparison(run_out : dict(), exp_out : dict()):
         #if the contract is not vulnerable, all found vulns. are false positives
         # note that for the purpose of this application we exclude informational and low impact detectors
         comparison_result["FALSE POSITIVE"] = comparison_result["FOUND"]
-        mismatches.append({"EXPECTED FUNCTIONS": [], "GOT FUNCTIONS": det_function_names})
+        if len(det_function_names):
+            mismatches.append({"EXPECTED FUNCTIONS": [], "GOT FUNCTIONS": det_function_names})
     
     #all false negatives are vulnerabilities not found
     # assert(comparison_result["NOT FOUND"] == comparison_result["FALSE NEGATIVE"])
@@ -99,6 +101,9 @@ def result_comparison(run_out : dict(), exp_out : dict()):
 
 
 all_detector_classes = dict([(name, cls) for name, cls in all_detectors.__dict__.items() if isinstance(cls, type)])
+#all custom detectors may be appended here for testing
+# all_detector_classes["OurDetector"] = OurDetector
+# all_detector_classes = {"OurDetector": OurDetector}
 
 slither_objects = {}
 run_results = {}
