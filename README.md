@@ -36,5 +36,5 @@ Current database is exposed below, indicationg class and subclass of the vulnera
 Explore the [wiki](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home) for details on:
 
 - 🏃🏽‍♀️ [Automated test suite run](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home#automated-test-suite-run)
-- 👣 [Project next steps](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home)
+- 👣 [Project next steps](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/Home#project-next-steps)
 - ✏️ [Contributing](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home#contributing)

@@ -9,8 +9,6 @@ from solc_select import solc_select
 from our_detector import OurDetector
 
 
-
-
 class_to_detector_mapping = {
     "Arithmetic":["divide-before-multiply", "tautological-compare", "tautology"],
     "Authorization":["tx-origin", "arbitrary-send-eth", "controlled-delegatecall"],
@@ -21,6 +19,12 @@ class_to_detector_mapping = {
     "Reentrancy":["reentrancy-eth", "reentrancy-no-eth", "token-reentrancy"],
     "Privacy":[],
 }
+
+
+all_detector_classes = dict([(name, cls) for name, cls in all_detectors.__dict__.items() if isinstance(cls, type)])
+#all custom detectors may be appended here for testing
+# all_detector_classes["OurDetector"] = OurDetector
+# all_detector_classes = {"OurDetector": OurDetector} #this is if you want to test it by itself
 
 
 def solc_path_finder(version:str):
@@ -105,11 +109,6 @@ def result_comparison(run_out : dict(), exp_out : dict()):
 
 
 
-
-all_detector_classes = dict([(name, cls) for name, cls in all_detectors.__dict__.items() if isinstance(cls, type)])
-#all custom detectors may be appended here for testing
-# all_detector_classes["OurDetector"] = OurDetector
-# all_detector_classes = {"OurDetector": OurDetector}
 
 slither_objects = {}
 run_results = {}
