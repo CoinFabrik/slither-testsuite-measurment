@@ -9,6 +9,7 @@ from solc_select import solc_select
 from our_detector import OurDetector
 
 
+#TODO: revisar mas detenidamente que esto este completo. Por ahora solo consideramos detectores de impacto MEDIUM o HIGH (sin importar confianza)
 class_to_detector_mapping = {
     "Arithmetic":["divide-before-multiply", "tautological-compare", "tautology"],
     "Authorization":["tx-origin", "arbitrary-send-eth", "controlled-delegatecall"],
@@ -172,7 +173,7 @@ for example_name, run_out in run_results.items():
 #construct summary of results
 found_n = sum([res[0]["FOUND"] - res[0]["FALSE POSITIVE"] for res in final_results])
 vuln_n = len(expected_results.keys())
-p_false_pos = sum([res[0]["FALSE POSITIVE"] for res in final_results]) / sum([res[0]["FOUND"] for res in final_results])
+p_false_pos = sum([res[0]["FALSE POSITIVE"] for res in final_results]) / (sum([res[0]["FOUND"] for res in final_results]) if sum([res[0]["FOUND"] for res in final_results]) != 0 else 1)
 p_false_neg = sum([res[0]["FALSE NEGATIVE"] for res in final_results]) / len(files_to_run)
 print("SUMMARY \nRan", len(files_to_run), "examples.\nCorrectly identified", found_n, "vulns. out of a universe of", vuln_n, "vulns.")
 print("Proportion of false positives over found vulns.:", p_false_pos)

@@ -119,5 +119,5 @@ class OurDetector(AbstractDetector):
                 # Add the result in result
                 res = self.generate_result(info)
 
-                results.append(res)
+                # results.append(res)
         return results
