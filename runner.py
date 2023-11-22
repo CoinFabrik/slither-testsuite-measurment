@@ -6,7 +6,7 @@ from slither.detectors.abstract_detector import *
 import json
 import os
 from solc_select import solc_select
-from our_detector import OurDetector
+from our_detectors.our_detector import OurDetector
 
 
 #TODO: revisar mas detenidamente que esto este completo. Por ahora solo consideramos detectores de impacto MEDIUM o HIGH (sin importar confianza)
