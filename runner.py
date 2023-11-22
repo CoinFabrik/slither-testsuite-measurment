@@ -54,18 +54,24 @@ def result_comparison(run_out : dict(), exp_out : dict()):
     
     #expected and detected function names
     exp_function_names = [exp_out['function']]
+    if (len(exp_function_names) == 1 and exp_function_names[0] == ''):
+        exp_function_names = []
     det_function_names = [f['name'] for f in triggered_detector_function_elems]
 
     #check vulnerability. If the contract is known to be vulnerable, we perform further checks
     if exp_out['vulnerable'] == True:
         expected_detector_name_list = class_to_detector_mapping[exp_out["class"]]
 
+        #agregar caso funcion vacia
         if (len(triggered_detectors) == 0):
             #contract is vulnerable but no detectors were triggered
             #constitutes a false positive for all vulnerabilities present
-            comparison_result["NOT FOUND"] = len([exp_out['function']])
-            comparison_result["FALSE NEGATIVE"] = len([exp_out['function']])
-            mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": []})
+            comparison_result["NOT FOUND"] = len(exp_function_names) if len(exp_function_names) > 0 else 1
+            comparison_result["FALSE NEGATIVE"] = comparison_result["NOT FOUND"]
+            if len(exp_function_names) > 0:
+                mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": []})
+            else:
+                mismatches.append({"SET OF EXPECTED DETECTORS": expected_detector_name_list, "TRIGGERED DETECTOR": []})
         else: 
             #first, we check that the functions match
             #if not, anything found is a false positive
@@ -74,7 +80,7 @@ def result_comparison(run_out : dict(), exp_out : dict()):
                 mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": det_function_names})
                 comparison_result["FALSE POSITIVE"] += sum([f not in det_function_names for f in exp_function_names])
             
-            elif any([f not in exp_function_names for f in det_function_names]):
+            elif len(exp_function_names) > 0 and any([f not in exp_function_names for f in det_function_names]):
                 #at least one vulnerable function was not detected, add false negatives
                 mismatches.append({"EXPECTED FUNCTIONS": exp_function_names, "GOT FUNCTIONS": det_function_names})
                 comparison_result["FALSE NEGATIVE"] += sum([f not in exp_function_names for f in det_function_names])
@@ -162,3 +168,13 @@ for example_name, run_out in run_results.items():
     
     print(res)
     print('\n')
+
+
+#construct summary of results
+found_n = sum([res[0]["FOUND"] - res[0]["FALSE POSITIVE"] for res in final_results])
+vuln_n = len(expected_results.keys())
+p_false_pos = sum([res[0]["FALSE POSITIVE"] for res in final_results]) / sum([res[0]["FOUND"] for res in final_results])
+p_false_neg = sum([res[0]["FALSE NEGATIVE"] for res in final_results]) / len(files_to_run)
+print("SUMMARY \nRan", len(files_to_run), "examples.\nCorrectly identified", found_n, "vulns. out of a universe of", vuln_n, "vulns.")
+print("Proportion of false positives over found vulns.:", p_false_pos)
+print("Proportion of false negatives over total examples:", p_false_neg)
