@@ -1,0 +1,138 @@
+[[_TOC_]]
+
+# Motivation & Benefits
+
+Ultimately, being able to enhance Slither based on our insights from Scout or, why not, build our own tool. Additionally, it has the benefit of creating a database of vulnerable contracts (known and categorised) for future use.
+
+# Objective
+
+Evaluate the performance of [Slither](https://github.com/crytic/slither) on smart contracts that exemplify different types of vulnerabilities (and their remediation), in order to assess accuracy, false positive/negatives and the tool overall behaviour.
+
+# Automated test suite run
+
+A script that automates running all examples, filters and summarizes all relevant output data is provided.
+
+#### Setup 
+Run `npm install` in the main directory to install all dependencies listed in the `package.json` file (for now, only openzeppelin).
+Any other dependencies added in future examples should be properly included in the `package.json` file.
+
+#### Running the script
+To run the automated test suite script, simply call `python runner.py` on the main project directory. The script will handle installation and selection of the correct _solc_ version for each example (that is, the version provided in each respective `config.json` file).
+
+#### Output
+For each example project, the script outputs a thruple with the following structure:
+
+1. The first value is the path to the example's contract.
+2. The second value is a dictionary with the following layout:
+
+| FOUND: n         | NOT FOUND: m      | FALSE POSITIVE: p    | FALSE NEGATIVE: q    |
+| :--------------- | :---------------- | :------------------- | :------------------- |
+
+where n, m, p and q are non-negative integers, and
+   - FOUND represents the number of all vulnerabilities found by the tool (correctly or incorrectly).
+   - NOT FOUND represents the number of all vulnerabilities present in the examples that were not found by running the tool.
+   - FALSE POSITIVEs are all pieces of correct code that were incorrectly detected and labeled as vulnerabilities by the tool
+   - FALSE NEGATIVEs are all known vulnerabilities in the example code that the tool failed to detect as such.
+3. The third value is a more detailed description of the mismatches found, whether false positives or false negatives.
+
+# Contributing
+
+A key aspect of this project is to have a substantial number of contracts (both in terms of quantity and across various classes of vulnerabilities). Below, we provide the contribution guide for anyone wishing to contribute with an example.
+
+#### Create
+1. On a new branch from `main`, create a vulnerable Solidity smart contract. Consider the following:
+    - Focus on **one** specific security issue.
+    - Include a comment at the end offering a brief explanation of the example and the identified vulnerability.
+    - Optionally, include the remediated contract and an exploiter contract if desired. Remediation is particularly valuable for comparing the tool outputs before and after the fix.
+
+#### Categorize
+2. Classify the vulnerability into one of the classes defined here: [link](https://gitlab.com/coinfabrik-private/coinfabrik-wiki/-/wikis/Auditing/Analyses/). If it does not fit into any of these classes, simply use the class "other."
+3. Define the vulnerability name (or _subclass_).
+
+#### File and directory structure
+4. The example should be within a folder called `vulnerability-class-id` at [`examples/`](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/tree/main/examples).
+5. Each contract of the example should be within a `vulnerable/`, `remediated/` or `exploiter/` folder, as appropriate. For all vulnerable and remediated cases, ensure that:
+    - There is a `contract.sol` file.
+    - There is a `config.json` file, which, for now, contains only a `solc` field specifying the compiler version, and optionally a `dependencies` field, an array of strings where all dependencies should be represented (e.g. if Open Zeppelin contracts are imported, the array should include "@openzeppelin")·
+    - There is an [`expected-output.json`](#expected-output) file, serving as a baseline for comparison with the tool output.
+- It might be helpful to check the [tree example](#tree-example).
+
+#### Contribute 🫶
+6. Create a new [Merge Request](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/merge_requests).
+7. If you come across any relevant observation or comment regarding Slither and it's detectors, even if small, would be great if you append it to the existing [list](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/Slither-observations-&-improvements).
+
+
+#### Additional information
+- Exploiter contracts, if included, are not required to adhere to any specific rules.
+- It is possible to encounter a non-vulnerable contract that triggers a false positive. This scenario provides valuable information about the tool's performance, and it may or may not necessarily include an accompanying vulnerable contract.
+
+# Expected output
+
+`expected-output.json` file should be included with every example as it serves as a baseline to compare the output of the security tools tested.
+
+```
+{
+    "vulnerable": true,   // Boolean indicating whether the contract is vulnerable or not
+    "class": "",          // Vulnerability class (mandatory for vulnerable contracts)
+    "subclass": "",       // Vulnerability name (mandatory for vulnerable contracts)
+    "function": "",       // Name of the function where is the vulnerability (optional)
+    "line": "",           // Line where the vulnerability is located (optional)
+    "comment": ""         // Comment that may be of interest when comparing outputs
+}
+```
+
+# Slither observations & improvements
+
+A list of all relevant comments, observations and potencial improvements found when running slither against the examples is exposed [here](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/Slither-observations-&-improvements).
+
+# Project next steps
+
+To further expand the project and explore Slither improvement posibilities, we suggest a two sided approach to a development loop.
+- One side is to add examples, expanding in variety and depth the contract testing base.
+Adding a new example is covered in detail in the [contributing](https://gitlab.com/coinfabrik-private/ppii/slither-testsuite-mesaurement/-/wikis/home#contributing) section above.
+- The other side is to implement detectors for vulnerability classes under or misrepresented by Slither detectors (totally or partially) for the currently available test cases.
+In order to test a custom detector, simply add it into the project inside the `our_detectors` folder.\
+Then import it into `runner.py` and append it to the `all_detector_classes` array.\
+Finally add it to the relevant vulnerability class/classes in the `class_to_detector_mapping` dictionary.\
+You can then assess their performance against all contracts in the test base, honing its behavior iteratively until it produces the least amount of false positives while still detecting the desired vulnerabilities.
+
+# Extras
+
+## Tree Example
+```bash
+examples
+├── arithmetic-1                  
+│   └── vulnerable                   
+│       ├── config.json            
+│       ├── contract.sol            
+│       └── expected-output.json
+├── dos-1
+│   ├── remediated
+│   │   ├── config.json
+│   │   ├── contract.sol
+│   │   └── expected-output.json
+│   └── vulnerable
+│       ├── config.json
+│       ├── contract.sol
+│       └── expected-output.json
+├── reentrancy-1
+│   ├── remediated-1
+│   │   ├── config.json
+│   │   ├── contract.sol
+│   │   └── expected-output.json
+│   ├── remediated-2
+│   │   ├── config.json
+│   │   ├── contract.sol
+│   │   └── expected-output.json
+│   └── vulnerable
+│       ├── config.json
+│       ├── contract.sol
+│       └── expected-output.json
+├── block-attributes-1
+│   ├── exploiter
+│   │   └── contract.sol
+│   └── vulnerable
+│       ├── config.json
+│       ├── contract.sol
+│       └── expected-output.json
+```
